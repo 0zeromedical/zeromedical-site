@@ -860,17 +860,16 @@ function jpAboutPage() {
         const c = (typeof siteData !== 'undefined' && siteData.company) ? siteData.company : {};
         const siteUrl = c.siteUrl || contact.jp.siteUrl;
         const telText = c.tel ? `${c.tel}${c.hours ? `（受付: ${c.hours}）` : ""}` : "";
+        const addressText = [
+          c.postalCode ? `〒${c.postalCode}` : "",
+          c.prefecture || "",
+          c.address || ""
+        ].filter(Boolean).join(" ");
         const rows = [
           ["会社名", `<span class="placeholder">${c.name || 'ZERO MEDICAL JAPAN'}</span>`],
           ["公式サイト", siteUrl ? `<a href="${esc(siteUrl)}" target="_blank" rel="noopener">${esc(formatSiteHost(siteUrl))}</a>` : ""],
-          ["登録者名", `<span class="placeholder">${c.registrantName || ''}</span>`],
-          ["登録者名（ローマ字）", `<span class="placeholder">${c.registrantRoman || ''}</span>`],
-          ["登録担当者名", `<span class="placeholder">${c.registrationContact || ''}</span>`],
-          ["登録担当者部署名", `<span class="placeholder">${c.registrationDepartment || ''}</span>`],
-          ["郵便番号", `<span class="placeholder">${c.postalCode || ''}</span>`],
-          ["都道府県", `<span class="placeholder">${c.prefecture || ''}</span>`],
-          ["住所", `<span class="placeholder">${c.address || ''}</span>`],
           ["代表者", c.representative || '盧 在薫（JAEHOON NO）'],
+          ["所在地", `<span class="placeholder">${addressText}</span>`],
           ["設立", `<span class="placeholder">${c.established || ''}</span>`],
           ["資本金", `<span class="placeholder">${c.capital || ''}</span>`],
           ["取引銀行", `<span class="placeholder">${c.bank || ''}</span>`],

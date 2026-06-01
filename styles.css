@@ -921,8 +921,6 @@ h1 {
 .cta-band .contact-list .placeholder,
 .cta-band .contact-list a {
   color: var(--paper);
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.22);
   text-decoration: none;
 }
 
@@ -1172,14 +1170,14 @@ tr:last-child td {
 }
 
 .placeholder {
-  display: inline-block;
+  display: inline;
   max-width: 100%;
-  padding: 2px 8px;
-  color: var(--danger);
-  background: rgba(53, 57, 50, 0.07);
-  border: 1px solid rgba(53, 57, 50, 0.16);
-  border-radius: 4px;
-  font-weight: 800;
+  padding: 0;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  font-weight: inherit;
   overflow-wrap: anywhere;
 }
 
