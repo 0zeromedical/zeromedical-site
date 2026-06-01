@@ -1,0 +1,12 @@
+{
+  "name": "zero-medical-site",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/dev-server.mjs",
+    "build": "node scripts/generate-assets.mjs && node scripts/validate-site.mjs && node scripts/prepare-output.mjs",
+    "validate": "node scripts/validate-site.mjs",
+    "generate:assets": "node scripts/generate-assets.mjs"
+  }
+}
