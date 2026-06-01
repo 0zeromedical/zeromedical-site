@@ -3,7 +3,7 @@ const contact = {
     tel: "090-3228-9502",
     hours: "",
     line: "",
-    email: "0zero.medical@gmail.com",
+    email: "contact@zeromedical.jp",
     siteUrl: "https://zeromedical.jp"
   }
 };
@@ -36,7 +36,7 @@ const siteData = {
     tel: "090-3228-9502",
     hours: "",
     fax: "",
-    email: "0zero.medical@gmail.com",
+    email: "contact@zeromedical.jp",
     line: "",
     languages: "日本語・韓国語",
     business: "韓国製医薬品・製品の輸入代行 / 医療機器・製品導入支援 / メディカルコスメ販売 / マーケティング支援 / 会場レンタル"
