@@ -1483,7 +1483,7 @@ tr:last-child td {
 
   .brand {
     gap: 9px;
-    max-width: calc(100% - 50px);
+    max-width: calc(100% - 56px);
   }
 
   .brand-symbol {
@@ -1493,19 +1493,20 @@ tr:last-child td {
   }
 
   .brand.logo-soft .brand-wordmark {
-    font-size: 1.05em;
-    letter-spacing: 0.13em;
+    font-size: 0.88rem;
+    letter-spacing: 0.06em;
   }
 
   .brand-kana,
   .brand.logo-soft .brand-kana {
-    font-size: 0.43rem;
-    letter-spacing: 0.025em;
+    display: none;
   }
 
   .menu-toggle {
     width: 40px;
     height: 40px;
+    position: relative;
+    z-index: 2;
   }
 
   .nav a {
@@ -1535,13 +1536,13 @@ tr:last-child td {
   }
 
   .brand.logo-soft .brand-wordmark {
-    font-size: 0.96em;
-    letter-spacing: 0.105em;
+    font-size: 0.76rem;
+    letter-spacing: 0.04em;
   }
 
   .brand-kana,
   .brand.logo-soft .brand-kana {
-    font-size: 0.39rem;
+    display: none;
   }
 
   h1 {
