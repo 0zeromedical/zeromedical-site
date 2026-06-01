@@ -3,7 +3,6 @@ import { readFileSync, statSync } from "node:fs";
 const requiredFiles = [
   "index.html",
   "app.js",
-  "admin.js",
   "styles.css",
   "vercel.json",
   "robots.txt",
@@ -18,8 +17,7 @@ const requiredRoutes = [
   "/marketing",
   "/space",
   "/about",
-  "/contact",
-  "/admin"
+  "/contact"
 ];
 
 for (const file of requiredFiles) {
@@ -39,16 +37,14 @@ for (const route of requiredRoutes) {
   }
 }
 
-for (const token of ["/styles.css", "/app.js", "/admin.js", "/assets/hero-clinic.png"]) {
+for (const token of ["/styles.css", "/app.js", "/assets/hero-clinic.png"]) {
   if (!html.includes(token)) {
     throw new Error(`index.html does not reference ${token}`);
   }
 }
 
-const adminJs = readFileSync("admin.js", "utf8");
-
 const assetRefs = new Set();
-for (const source of [app, adminJs, html, css]) {
+for (const source of [app, html, css]) {
   for (const match of source.matchAll(/["'(](\/assets\/[^"')\s]+)/g)) {
     assetRefs.add(match[1].replace(/^\//, ""));
   }

@@ -5,7 +5,6 @@ const outputDir = "public";
 const entries = [
   "index.html",
   "app.js",
-  "admin.js",
   "styles.css",
   "robots.txt",
   "sitemap.xml",

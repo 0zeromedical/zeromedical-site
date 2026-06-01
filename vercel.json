@@ -2,9 +2,12 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
-    {
-      "source": "/((?!assets|styles.css|app.js|robots.txt|sitemap.xml).*)",
-      "destination": "/index.html"
-    }
+    { "source": "/import", "destination": "/index.html" },
+    { "source": "/products", "destination": "/index.html" },
+    { "source": "/cosmetic", "destination": "/index.html" },
+    { "source": "/marketing", "destination": "/index.html" },
+    { "source": "/space", "destination": "/index.html" },
+    { "source": "/about", "destination": "/index.html" },
+    { "source": "/contact", "destination": "/index.html" }
   ]
 }

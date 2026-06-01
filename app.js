@@ -18,6 +18,33 @@ const jpNav = [
   ["/contact", "お問い合わせ"]
 ];
 
+const siteData = {
+  company: {
+    name: "ZERO MEDICAL JAPAN",
+    siteUrl: "https://zeromedical.jp",
+    registrantName: "盧 在薫",
+    registrantRoman: "JAEHOON NO",
+    registrationContact: "盧 在薫",
+    registrationDepartment: "",
+    postalCode: "174-0046",
+    prefecture: "東京都",
+    address: "板橋区蓮根2-30 16-710",
+    representative: "盧 在薫（JAEHOON NO）",
+    established: "",
+    capital: "",
+    bank: "",
+    tel: "090-3228-9502",
+    hours: "",
+    fax: "",
+    email: "0zero.medical@gmail.com",
+    line: "",
+    languages: "日本語・韓国語",
+    business: "韓国製医薬品・製品の輸入代行 / 医療機器・製品導入支援 / メディカルコスメ販売 / マーケティング支援 / 会場レンタル"
+  },
+  nav: jpNav.map(([href, label]) => ({ href, label, visible: true })),
+  pages: {}
+};
+
 const jpServices = [
   {
     href: "/import",
@@ -986,12 +1013,6 @@ const routes = {
     title: "お問い合わせ | ZERO MEDICAL JAPAN",
     description: "輸入代行・製品導入・マーケティング支援・会場利用に関するご相談・お問い合わせはこちら。",
     render: contactPage
-  },
-  "/admin": {
-    lang: "ja",
-    title: "管理者パネル | ZERO MEDICAL JAPAN",
-    description: "サイト設定・コンテンツ管理パネル",
-    render: adminPage
   }
 };
 
@@ -1071,8 +1092,6 @@ function bindMenu() {
 
 function render() {
   try {
-    initSiteData();
-    applyCustomStyles();
     const path = normalizePath();
     const route = routes[path] || routes[`${path}/`] || null;
     const activePath = route ? path : "/";
@@ -1094,7 +1113,6 @@ function render() {
     `;
     bindForm();
     bindMenu();
-    if (typeof bindAdmin === 'function') bindAdmin();
     window.scrollTo({ top: 0, behavior: "instant" });
   } catch (error) {
     console.error("Rendering error:", error);
