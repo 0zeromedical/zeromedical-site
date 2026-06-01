@@ -904,7 +904,7 @@ function contactPage() {
       <div class="container">
         <div class="contact-grid">
           <div class="form-panel">
-            <form class="contact-form" novalidate>
+            <form class="contact-form" novalidate data-recipient="${esc(contact.jp.email)}">
               <div class="form-grid">
                 ${field("name", "お名前（必須）", "text", true)}
                 ${field("company", "医療機関名・会社名（任意）", "text", false)}
@@ -930,7 +930,7 @@ function contactPage() {
                   <span>プライバシーポリシーに同意します。</span>
                 </label>
               </div>
-              <button class="button dark" type="submit">入力内容を確認</button>
+              <button class="button dark" type="submit">メールで送信</button>
               <p class="form-status" role="status" aria-live="polite"></p>
             </form>
           </div>
@@ -1063,13 +1063,35 @@ function bindForm() {
 
       if (!form.checkValidity()) {
         form.reportValidity();
-        if (status) status.textContent = "Please complete the required fields.";
+        if (status) status.textContent = "必須項目をご入力ください。";
         return;
       }
 
+      const formData = new FormData(form);
+      const getValue = (name) => String(formData.get(name) || "").trim();
+      const recipient = form.dataset.recipient || contact.jp.email;
+      const category = getValue("category");
+      const subject = `ZERO MEDICAL JAPAN お問い合わせ${category ? `（${category}）` : ""}`;
+      const body = [
+        "ZERO MEDICAL JAPAN お問い合わせ",
+        "",
+        `お名前: ${getValue("name")}`,
+        `医療機関名・会社名: ${getValue("company") || "未入力"}`,
+        `メールアドレス: ${getValue("email")}`,
+        `お電話番号: ${getValue("phone") || "未入力"}`,
+        `ご相談内容: ${category}`,
+        "",
+        "メッセージ:",
+        getValue("message") || "未入力",
+        "",
+        `送信元ページ: ${window.location.href}`
+      ].join("\n");
+      const mailto = `mailto:${encodeURIComponent(recipient)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
       if (status) {
-        status.textContent = "送信先メールまたはフォームエンドポイントを設定すると、すぐに送信フォームとして接続できます。";
+        status.textContent = "メールソフトを開いています。内容をご確認のうえ送信してください。";
       }
+      window.location.href = mailto;
     } catch (error) {
       console.error("Form submission error:", error);
       const status = form.querySelector(".form-status");
