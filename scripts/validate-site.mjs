@@ -20,6 +20,8 @@ const requiredRoutes = [
   "/contact"
 ];
 
+const staticRoutes = requiredRoutes.filter((route) => route !== "/");
+
 for (const file of requiredFiles) {
   const info = statSync(file);
   if (!info.isFile() || info.size === 0) {
@@ -72,4 +74,4 @@ if (vercel.includes(removedLocalePrefix)) {
   throw new Error("vercel.json still contains Korean page routes.");
 }
 
-console.log(`Validated ${requiredFiles.length} core files, ${assetRefs.size} assets, and ${requiredRoutes.length} routes.`);
+console.log(`Validated ${requiredFiles.length} core files, ${assetRefs.size} assets, and ${requiredRoutes.length} routes including ${staticRoutes.length} static route entries.`);
