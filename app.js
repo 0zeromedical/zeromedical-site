@@ -224,6 +224,13 @@ function contactListMarkup(c, keys) {
     .join("");
 }
 
+function formatHeroTitle(value) {
+  return String(value || "")
+    .split(/\r?\n/)
+    .map((line) => esc(line))
+    .join("<br />");
+}
+
 function hero({ eyebrow, title, copy, compact = false, actions = "" }) {
   return `
     <section class="hero ${compact ? "compact" : ""}">
@@ -1113,7 +1120,7 @@ function render() {
     `;
     bindForm();
     bindMenu();
-    window.scrollTo({ top: 0, behavior: "instant" });
+    window.scrollTo({ top: 0, behavior: "auto" });
   } catch (error) {
     console.error("Rendering error:", error);
     document.getElementById("app").innerHTML = `
