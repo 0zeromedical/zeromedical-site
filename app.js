@@ -890,9 +890,12 @@ function jpAboutPage() {
 }
 
 function contactPage() {
-  const options = ["輸入代行", "製品導入支援", "メディカルコスメ", "マーケティング支援", "会場レンタル", "韓国語相談", "その他"];
   const data = contact.jp;
   const companyContact = siteData.company || data;
+  const email = companyContact.email || contact.jp.email;
+  const tel = companyContact.tel || contact.jp.tel;
+  const mailHref = `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent("ZERO MEDICAL JAPAN お問い合わせ")}`;
+  const telHref = `tel:${String(tel).replace(/[^\d+]/g, "")}`;
   return `
     ${hero({
       compact: true,
@@ -903,71 +906,40 @@ function contactPage() {
     <section class="section">
       <div class="container">
         <div class="contact-grid">
-          <div class="form-panel">
-            <form class="contact-form" novalidate data-recipient="${esc(contact.jp.email)}">
-              <div class="form-grid">
-                ${field("name", "お名前（必須）", "text", true)}
-                ${field("company", "医療機関名・会社名（任意）", "text", false)}
-                ${field("email", "メールアドレス（必須）", "email", true)}
-                ${field("phone", "お電話番号（任意）", "tel", false)}
-                <div class="field full">
-                  <label>
-                    ご相談内容（選択必須）
-                    <select name="category" required>
-                      <option value="">選択してください</option>
-                      ${options.map((option) => `<option>${option}</option>`).join("")}
-                    </select>
-                  </label>
-                </div>
-                <div class="field full">
-                  <label>
-                    メッセージ（自由記述）
-                    <textarea name="message"></textarea>
-                  </label>
-                </div>
-                <label class="checkbox-field full">
-                  <input type="checkbox" name="privacy" required />
-                  <span>プライバシーポリシーに同意します。</span>
-                </label>
-              </div>
-              <button class="button dark" type="submit">メールで送信</button>
-              <p class="form-status" role="status" aria-live="polite"></p>
-            </form>
+          <div class="contact-panel contact-direct-panel">
+            <div class="section-header">
+              <p class="section-kicker">直接お問い合わせ</p>
+              <h2>メール・お電話でご相談ください</h2>
+              <p class="section-lead">輸入代行、製品導入支援、マーケティング支援、会場利用、韓国語でのご相談を承ります。</p>
+            </div>
+            <div class="hero-actions">
+              <a class="button dark" href="${mailHref}">メールでお問い合わせ</a>
+              ${tel ? `<a class="button" href="${telHref}">電話する</a>` : ""}
+            </div>
+            <ul class="contact-list">
+              ${contactListMarkup(companyContact, ["email", "tel", "siteUrl"])}
+            </ul>
+            <div class="korean-contact-help">
+              <h3>한국어 문의 안내</h3>
+              <p>한국어 상담은 이메일 또는 전화로 문의해 주세요.</p>
+            </div>
           </div>
           <aside class="contact-panel">
             <div class="section-header">
-              <p class="section-kicker">連絡方法</p>
-              <h2>その他の連絡方法</h2>
+              <p class="section-kicker">ご相談内容</p>
+              <h2>主な対応領域</h2>
             </div>
-            <ul class="contact-list">
-              ${contactListMarkup(companyContact, ["tel", "email", "line", "siteUrl"])}
+            <ul class="list-panel positive">
+              <li>韓国製医薬品・製品の輸入代行</li>
+              <li>医療機器・製品導入支援</li>
+              <li>メディカルコスメ販売</li>
+              <li>マーケティング支援</li>
+              <li>会場レンタル・韓国語相談</li>
             </ul>
-            ${companyContact.line ? imageSlot({
-              type: "qr",
-              label: "LINE公式QRコード",
-              caption: "推奨画像: LINE公式アカウントのQRコード",
-              ratio: "qr",
-              src: "/assets/generated/line-qr-placeholder.png"
-            }) : ""}
-            <div class="korean-contact-help">
-              <h3>한국어 문의 안내</h3>
-              <p>한국어 상담도 이 문의 폼으로 남겨 주세요. 상담 내용에서 「韓国語相談」을 선택하시면 됩니다.</p>
-            </div>
           </aside>
         </div>
       </div>
     </section>
-  `;
-}
-
-function field(name, label, type, required) {
-  return `
-    <div class="field">
-      <label>
-        ${label}
-        <input name="${name}" type="${type}" ${required ? "required" : ""} />
-      </label>
-    </div>
   `;
 }
 
@@ -1052,54 +1024,6 @@ function updateMeta(route) {
   if (ogDescription) ogDescription.setAttribute("content", route.description);
 }
 
-function bindForm() {
-  const form = document.querySelector(".contact-form");
-  if (!form) return;
-
-  form.addEventListener("submit", (event) => {
-    try {
-      event.preventDefault();
-      const status = form.querySelector(".form-status");
-
-      if (!form.checkValidity()) {
-        form.reportValidity();
-        if (status) status.textContent = "必須項目をご入力ください。";
-        return;
-      }
-
-      const formData = new FormData(form);
-      const getValue = (name) => String(formData.get(name) || "").trim();
-      const recipient = form.dataset.recipient || contact.jp.email;
-      const category = getValue("category");
-      const subject = `ZERO MEDICAL JAPAN お問い合わせ${category ? `（${category}）` : ""}`;
-      const body = [
-        "ZERO MEDICAL JAPAN お問い合わせ",
-        "",
-        `お名前: ${getValue("name")}`,
-        `医療機関名・会社名: ${getValue("company") || "未入力"}`,
-        `メールアドレス: ${getValue("email")}`,
-        `お電話番号: ${getValue("phone") || "未入力"}`,
-        `ご相談内容: ${category}`,
-        "",
-        "メッセージ:",
-        getValue("message") || "未入力",
-        "",
-        `送信元ページ: ${window.location.href}`
-      ].join("\n");
-      const mailto = `mailto:${encodeURIComponent(recipient)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
-      if (status) {
-        status.textContent = "メールソフトを開いています。内容をご確認のうえ送信してください。";
-      }
-      window.location.href = mailto;
-    } catch (error) {
-      console.error("Form submission error:", error);
-      const status = form.querySelector(".form-status");
-      if (status) status.textContent = "오류가 발생했습니다. 잠시 후 다시 시도해 주세요.";
-    }
-  });
-}
-
 function bindMenu() {
   const toggle = document.querySelector(".menu-toggle");
   const nav = document.querySelector(".nav");
@@ -1139,7 +1063,6 @@ function render() {
         ${footer(lang)}
       </div>
     `;
-    bindForm();
     bindMenu();
     window.scrollTo({ top: 0, behavior: "auto" });
   } catch (error) {
